@@ -6,7 +6,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN \
 	# up(date|grade)
 	apt-get update && \
-	apt-get upgrade -qq -y && \
+	apt-get upgrade -y -qq && \
 	# install essentials
 	apt-get install -y --no-install-recommends \
 		tar \

@@ -140,12 +140,14 @@ Many different Linux and Windows tools are installed. Windows tools are supporte
 
 | Category  | Name | Description |
 | :-------- | :--- | :---------- |
+| Utility/SHELL | [evil-winrm](https://github.com/Hackplayers/evil-winrm) | The ultimate WinRM shell for hacking/pentesting. |
 | Discovery/DOMAIN | [grep](https://www.advanced-ip-scanner.com/) | Reliable and free network scanner to analyse LAN. The program shows all network devices, gives you access to shared folders, provides remote control of computers (via RDP and Radmin), and can even remotely switch computers off. It is easy to use and runs as a portable edition. It should be the first choice for every network admin. |
 | Discovery/PORT | [masscan](https://github.com/robertdavidgraham/masscan) | TCP port scanner, spews SYN packets asynchronously, scanning entire Internet in under 5 minutes. . |
 | Discovery/HOST | [netdiscover](https://github.com/netdiscover-scanner/netdiscover) | Netdiscover is a network address discovering tool, developed mainly for those wireless networks without dhcp server, it also works on hub/switched networks. Its based on arp packets, it will send arp requests and sniff for replies. |
 | Discovery/PORT | [naabu](https://github.com/projectdiscovery/naabu) |  A fast port scanner written in go with a focus on reliability and simplicity. Designed to be used in combination with other tools for attack surface discovery in bug bounties and pentests. |
 | Discovery/PORT | [nmap](https://nmap.org/) | Nmap ("Network Mapper") is a free and open source utility for network discovery and security auditing.|
 | Discovery/PORT | [ps.sh](https://github.com/enenumxela/ps.sh) | A wrapper around tools used for port scanning(nmap, naabu & masscan), the goal being reducing scan time, increasing scan efficiency and automating the workflow. |
+| Utility/MISC | [responder](https://github.com/lgandx/Responder) | Responder is an LLMNR, NBT-NS and MDNS poisoner.. |
 
 ### Wordlists
 

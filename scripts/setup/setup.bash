@@ -93,72 +93,6 @@ mv ${CONFIGURATIONS}/.vimrc ${HOME}/.vim/vimrc
 # }} Text Editor
 
 
-
-# {{ Wine 
-
-# echo -e "Wine"
-
-# enable i386 arch (required for 32bit windows)
-# dpkg --add-architecture i386 && apt-get update
-
-# Install wine
-# apt-get install -y \
-#         wine \
-#         wine32 \
-#         wine64 \
-#         libwine \
-#         libwine:i386 \
-#         fonts-wine \
-#         xvfb \
-#         winbind
-
-# Configure 32 bit wineprefix (avoid bugs they say - breaks 64 bit only programs...)
-# WINEARCH=win32 WINEPREFIX=/root/.wine winecfg
-
-# Install winetricks
-# wget -O /usr/bin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
-# chmod +x /usr/bin/winetricks
-# xvfb-run -a winetricks --self-update
-
-# Install dotnet framework 4.0
-# xvfb-run -a winetricks -q dotnet40
-# xvfb-run -a winetricks -q wmp10
-
-# }} Wine
-# {{ Advanced IP Scanner
-
-# echo -e "Advanced IP Scanner"
-
-# dir="/opt/Advanced_IP_Scanner"
-# exe="Advanced_IP_Scanner_2.5.3850.exe"
-
-# if [ ! -d ${dir} ]
-# then
-# 	mkdir -p ${dir}
-# fi
-
-# curl -sL "https://download.advanced-ip-scanner.com/download/files/${exe}" -o "${dir}/${exe}"
-
-# cat << EOF > /usr/bin/advanced-ip-scanner
-# #!/bin/sh
-# wine ${dir}/${exe} \$@
-# EOF
-
-# chmod +x /usr/bin/advanced-ip-scanner
-
-# }} Advanced IP Scanner
-# {{ Angry IP Scanner
-
-# echo -e "Angry IP Scanner"
-
-# version="3.8.2"
-
-# curl -sL "https://github.com/angryip/ipscan/releases/download/${version}/ipscan_${version}_amd64.deb" -o "/tmp/ipscan_${version}_amd64.deb"
-# apt-get install -y -qq default-jdk
-# apt-get install -y -qq /tmp/ipscan_${version}_amd64.deb
-
-# }} Angry IP Scanner
-
 # {{ nmap
 
 echo -e " + nmap"
@@ -187,7 +121,7 @@ echo -e " + ps.sh"
 
 apt-get install -y -qq libxml2-utils
 
-file="/usr/local/bin/ps.sh"
+file="${HOME}/.local/bin/ps.sh"
 
 curl -sL https://raw.githubusercontent.com/enenumxela/ps.sh/main/ps.sh -o ${file}
 
@@ -227,8 +161,24 @@ apt-get install -y -qq grep
 # }} grep
 # {{ crackmapexec
 
+echo -e " + crackmapexec"
+
 python3 -m pip install pipx
 pipx ensurepath
 pipx install crackmapexec
 
 # }} crackmapexec
+# {{ evil-winrm
+
+echo -e " + evil-winrm"
+
+apt-get install -y -qq evil-winrm
+
+# }} evil-winrm
+# {{ responder
+
+echo -e " + responder"
+
+apt-get install -y -qq responder
+
+# }} responder
