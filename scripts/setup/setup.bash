@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
-set -e
+# set -e
 
 CONFIGURATIONS="/tmp/configurations"
 
+USER_LOCAL_BIN="${HOME}/.local/bin"
+
+if [ ! -d ${USER_LOCAL_BIN} ]
+then
+	mkdir -p ${USER_LOCAL_BIN}
+fi
+
 # {{ ssh
 
-echo -e " + ssh"
+echo -e "\n + ssh\n"
 
 apt-get install -y -qq openssh-server
 
@@ -95,14 +102,14 @@ mv ${CONFIGURATIONS}/.vimrc ${HOME}/.vim/vimrc
 
 # {{ nmap
 
-echo -e " + nmap"
+echo -e "\n + nmap\n"
 
 apt-get install -y -qq nmap
 
 # }} nmap
 # {{ naabu
 
-echo -e " + naabu"
+echo -e "\n + naabu\n"
 
 apt-get install -y -qq libpcap-dev
 go install github.com/projectdiscovery/naabu/cmd/naabu@latest
@@ -110,74 +117,63 @@ go install github.com/projectdiscovery/naabu/cmd/naabu@latest
 # }} naabu
 # {{ masscan
 
-echo -e " + masscan"
+echo -e "\n + masscan\n"
 
 apt-get install -y -qq masscan
 
 # }} masscan
 # {{ ps.sh
 
-echo -e " + ps.sh"
+echo -e "\n + ps.sh\n"
 
-apt-get install -y -qq libxml2-utils
-
-file="${HOME}/.local/bin/ps.sh"
-
-curl -sL https://raw.githubusercontent.com/enenumxela/ps.sh/main/ps.sh -o ${file}
-
-if [ -f ${file} ]
-then
-	chmod u+x ${file}
-fi
+curl -s https://raw.githubusercontent.com/enenumxela/ps.sh/main/install.sh | bash -
 
 # }} ps.sh
 # {{ netdiscover
 
-echo -e " + netdiscover"
+echo -e "\n + netdiscover\n"
 
 apt-get install -y -qq netdiscover
 
 # }} netdiscover
 # {{ ping
 
-echo -e " + ping"
+echo -e "\n + ping\n"
 
 apt-get install -y -qq iputils-ping
 
 # }} ping
 # {{ fping
 
-echo -e " + fping"
+echo -e "\n + fping\n"
 
 apt-get install -y -qq fping
 
 # }} fping
 # {{ grep
 
-echo -e " + grep"
+echo -e "\n + grep\n"
 
 apt-get install -y -qq grep
 
 # }} grep
 # {{ crackmapexec
 
-echo -e " + crackmapexec"
+echo -e "\n + crackmapexec\n"
 
-python3 -m pip install pipx
-pipx ensurepath
 pipx install crackmapexec
 
 # }} crackmapexec
 # {{ evil-winrm
 
-echo -e " + evil-winrm"
+echo -e "\n + evil-winrm\n"
 
 apt-get install -y -qq evil-winrm
 
 # }} evil-winrm
 # {{ responder
 
-echo -e " + responder"
+echo -e "\n + responder\n"
 
 apt-get install -y -qq responder
 

@@ -33,7 +33,7 @@
 	</a>
 </p>
 
-A web hacking toolkit docker image with GUI applications support.
+A network hacking toolkit docker image with GUI applications support.
 
 ## Resources
 
@@ -45,7 +45,6 @@ A web hacking toolkit docker image with GUI applications support.
     * [Using SSH with X11 forwarding](#using-ssh-with-x11-forwarding)
 * [Installed](#installed)
     * [Tools](#tools)
-    * [Wordlists](#wordlists)
 
 ## Installation
 
@@ -148,10 +147,3 @@ Many different Linux and Windows tools are installed. Windows tools are supporte
 | Discovery/PORT | [nmap](https://nmap.org/) | Nmap ("Network Mapper") is a free and open source utility for network discovery and security auditing.|
 | Discovery/PORT | [ps.sh](https://github.com/enenumxela/ps.sh) | A wrapper around tools used for port scanning(nmap, naabu & masscan), the goal being reducing scan time, increasing scan efficiency and automating the workflow. |
 | Utility/MISC | [responder](https://github.com/lgandx/Responder) | Responder is an LLMNR, NBT-NS and MDNS poisoner.. |
-
-### Wordlists
-
-| Wordlist | Description |
-| :------- | :---------- |
-| [SecLists](https://github.com/danielmiessler/SecLists)  | SecLists is the security tester's companion. It's a collection of multiple types of lists used during security assessments, collected in one place. List types include usernames, passwords, URLs, sensitive data patterns, fuzzing payloads, web shells, and many more. |
-| [jhaddix](https://gist.github.com/jhaddix) / [content_discovery_all.txt](https://gist.github.com/jhaddix/b80ea67d85c13206125806f0828f4d10) | a masterlist of content discovery URLs and files (used most commonly with gobuster) |

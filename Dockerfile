@@ -28,6 +28,8 @@ RUN \
 		python3-dev \
 		python3-pip \
 		python3-venv && \
+	python3 -m pip install pipx && \
+	pipx ensurepath && \
 	# setup go(golang)
 	curl -sL https://golang.org/dl/go1.17.6.linux-amd64.tar.gz -o /tmp/go1.17.6.linux-amd64.tar.gz && \
 	tar -xzf /tmp/go1.17.6.linux-amd64.tar.gz -C /usr/local && \
@@ -47,8 +49,6 @@ COPY scripts $HOME/scripts
 COPY configurations.tar.gz /tmp/configurations.tar.gz
 
 RUN \
-	# make scripts executable
-	chmod a+x $HOME/scripts/* && \
 	# extract configurations
 	tar -xzf /tmp/configurations.tar.gz -C /tmp && \
 	# run setup scripts
@@ -58,11 +58,13 @@ RUN \
 		chmod u+x ${script} && \
 		${script}; \
 	done && \
+	# make scripts executable
+	chmod u+x $HOME/scripts/* && \
 	# clean up
 	# remove setup scripts
 	rm -rf $HOME/scripts/setup && \
 	# remove configuration remnants
-	rm -rf /tmp/configurations* && \
+	rm -rf /tmp/configurations && \
 	# auto(remove|clean) & clean
 	for task in autoremove autoclean clean; \
 	do \
