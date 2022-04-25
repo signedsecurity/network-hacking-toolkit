@@ -135,15 +135,30 @@ Use X11 forwarding through SSH if you want to go this way. Run `start_ssh` insid
 
 ### Tools
 
-Many different Linux and Windows tools are installed. Windows tools are supported with Wine. Some tools can be used on the command line while others require GUI support!
+Many different Linux and Windows tools are installed. Windows tools are supported with [Wine](https://www.winehq.org/). Some tools can be used on the command line while others require GUI support!
 
-| Category  | Name | Description |
-| :-------- | :--- | :---------- |
-| Utility/SHELL | [evil-winrm](https://github.com/Hackplayers/evil-winrm) | The ultimate WinRM shell for hacking/pentesting. |
-| Discovery/DOMAIN | [grep](https://www.advanced-ip-scanner.com/) | Reliable and free network scanner to analyse LAN. The program shows all network devices, gives you access to shared folders, provides remote control of computers (via RDP and Radmin), and can even remotely switch computers off. It is easy to use and runs as a portable edition. It should be the first choice for every network admin. |
-| Discovery/PORT | [masscan](https://github.com/robertdavidgraham/masscan) | TCP port scanner, spews SYN packets asynchronously, scanning entire Internet in under 5 minutes. . |
-| Discovery/HOST | [netdiscover](https://github.com/netdiscover-scanner/netdiscover) | Netdiscover is a network address discovering tool, developed mainly for those wireless networks without dhcp server, it also works on hub/switched networks. Its based on arp packets, it will send arp requests and sniff for replies. |
-| Discovery/PORT | [naabu](https://github.com/projectdiscovery/naabu) |  A fast port scanner written in go with a focus on reliability and simplicity. Designed to be used in combination with other tools for attack surface discovery in bug bounties and pentests. |
-| Discovery/PORT | [nmap](https://nmap.org/) | Nmap ("Network Mapper") is a free and open source utility for network discovery and security auditing.|
-| Discovery/PORT | [ps.sh](https://github.com/enenumxela/ps.sh) | A wrapper around tools used for port scanning(nmap, naabu & masscan), the goal being reducing scan time, increasing scan efficiency and automating the workflow. |
-| Utility/MISC | [responder](https://github.com/lgandx/Responder) | Responder is an LLMNR, NBT-NS and MDNS poisoner.. |
+| Name | Description |
+| :--- | :---------- |
+| [bloodhound](https://github.com/BloodHoundAD/BloodHound) | BloodHound uses graph theory to reveal the hidden and often unintended relationships within an Active Directory or Azure environment. |
+| [certipy](https://github.com/ly4k/Certipy) | Tool for Active Directory Certificate Services enumeration and abuse. |
+| [CrackMapExec](https://github.com/byt3bl33d3r/CrackMapExec) | A swiss army knife for pentesting networks . |
+| dnsutils | - |
+| [enum4linux](https://github.com/CiscoCXSecurity/enum4linux) | Enum4linux is a tool for enumerating information from Windows and Samba systems. |
+| [evil-winrm](https://github.com/Hackplayers/evil-winrm) | The ultimate WinRM shell for hacking/pentesting. |
+| [fping](https://en.wikipedia.org/wiki/Grep) | A command-line utility for searching plain-text data sets for lines that match a regular expression.. |
+| [grep](https://en.wikipedia.org/wiki/Grep) | A command-line utility for searching plain-text data sets for lines that match a regular expression. |
+| [impacket](https://github.com/SecureAuthCorp/impacket) | Impacket is a collection of Python classes for working with network protocols. |
+| ldap-utils | - |
+| [masscan](https://github.com/robertdavidgraham/masscan) | TCP port scanner, spews SYN packets asynchronously, scanning entire Internet in under 5 minutes. . |
+| [mitm6](https://github.com/dirkjanm/mitm6) | mitm6 is a pentesting tool that exploits the default configuration of Windows to take over the default DNS server. |
+| [naabu](https://github.com/projectdiscovery/naabu) |  A fast port scanner written in go with a focus on reliability and simplicity. Designed to be used in combination with other tools for attack surface discovery in bug bounties and pentests. |
+| [netdiscover](https://github.com/netdiscover-scanner/netdiscover) | Netdiscover is a network address discovering tool, developed mainly for those wireless networks without dhcp server, it also works on hub/switched networks. Its based on arp packets, it will send arp requests and sniff for replies. |
+| [nmap](https://nmap.org/) | Nmap ("Network Mapper") is a free and open source utility for network discovery and security auditing.|
+| [nmap-utils](https://github.com/enenumxela/nmap-utils) | Scripts to process nmap results. |
+| [ping](https://github.com/enenumxela/ps.sh) | A wrapper around tools used for port scanning(nmap, naabu & masscan), the goal being reducing scan time, increasing scan efficiency and automating the workflow. |
+| [ps.sh](https://github.com/enenumxela/ps.sh) | A wrapper around tools used for port scanning(nmap, naabu & masscan), the goal being reducing scan time, increasing scan efficiency and automating the workflow. |
+| [responder](https://github.com/lgandx/Responder) | Responder is an LLMNR, NBT-NS and MDNS poisoner. |
+
+## Contribution
+
+[Issues](https://github.com/signedsecurity/network-hacking-toolkit/issues) and [Pull Requests](https://github.com/signedsecurity/network-hacking-toolkit/pulls) are welcome!

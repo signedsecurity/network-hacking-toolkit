@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# set -e
-
-CONFIGURATIONS="/tmp/configurations"
-
 USER_LOCAL_BIN="${HOME}/.local/bin"
 
 if [ ! -d ${USER_LOCAL_BIN} ]
@@ -11,9 +7,11 @@ then
 	mkdir -p ${USER_LOCAL_BIN}
 fi
 
+CONFIGURATIONS="/tmp/configurations"
+
 # {{ ssh
 
-echo -e "\n + ssh\n"
+echo -e " + ssh"
 
 apt-get install -y -qq openssh-server
 
@@ -24,22 +22,45 @@ sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' 
 # }} ssh
 # {{ System 
 
-echo -e " + Terminal"
+echo -e " + System"
 
 # {{ Terminal
 
 echo -e " +++++ Terminal"
 
-# {{ bash
+# {{ zsh
 
-echo -e " +++++++++ SHELL (bash)"
+echo -e " +++++++++ Shell (zsh)"
 
-mv ${CONFIGURATIONS}/.bashrc ${HOME}/.bashrc
+# install zsh
+if [ ! -x "$(command -v zsh)" ]
+then
+	apt-get install -y -qq zsh
+fi
 
-# }} bash
+# make zsh default shell
+if [ "${SHELL}" != "$(which zsh)" ]
+then
+	chsh -s $(which zsh) ${USER}
+fi
+
+# oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended 
+
+# zsh-autosuggestions
+git clone "https://github.com/zsh-users/zsh-autosuggestions" "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+# zsh-syntax-highlighting
+git clone "https://github.com/zsh-users/zsh-syntax-highlighting.git" "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+
+# set up dotfiles
+mv ${CONFIGURATIONS}/.zshrc ${HOME}/.zshrc
+mv ${CONFIGURATIONS}/.zprofile ${HOME}/.zprofile
+mv ${CONFIGURATIONS}/.hushlogin ${HOME}/.hushlogin
+
+# }} zsh
 # {{ tmux
 
-echo -e " +++++++++ Multiplexer (tmux)"
+echo -e " +++++++++ Session Management (tmux)"
 
 if [ ! -x "$(command -v tmux)" ]
 then
@@ -86,95 +107,124 @@ curl -sL https://raw.githubusercontent.com/joshdick/onedark.vim/master/autoload/
 curl -sL https://raw.githubusercontent.com/joshdick/onedark.vim/master/colors/onedark.vim -o ${VIM_COLORS}/onedark.vim
 mkdir -p ${VIM_AUTOLOAD}/airline/themes
 curl -sL https://raw.githubusercontent.com/joshdick/onedark.vim/master/autoload/airline/themes/onedark.vim -o ${VIM_AUTOLOAD}/airline/themes/onedark.vim
+git clone https://github.com/tpope/vim-fugitive.git ${VIM_BUNDLE}/vim-fugitive
 git clone https://github.com/preservim/nerdtree.git ${VIM_BUNDLE}/nerdtree
+git clone https://github.com/airblade/vim-gitgutter.git ${VIM_BUNDLE}/vim-gitgutter
 git clone https://github.com/ryanoasis/vim-devicons.git ${VIM_BUNDLE}/vim-devicons
 git clone https://github.com/vim-airline/vim-airline.git ${VIM_BUNDLE}/vim-airline
-git clone https://github.com/airblade/vim-gitgutter.git ${VIM_BUNDLE}/vim-gitgutter
 git clone https://github.com/Xuyuanp/nerdtree-git-plugin.git ${VIM_BUNDLE}/nerdtree-git-plugin
-git clone https://github.com/tpope/vim-fugitive.git ${VIM_BUNDLE}/vim-fugitive
 
-mv ${CONFIGURATIONS}/.vimrc ${HOME}/.vim/vimrc
+# mv ${CONFIGURATIONS}/.vimrc ${HOME}/.vim/vimrc
 
 # }} vim
 
 # }} Text Editor
+# {{ Browser 
 
+echo -e " +++++ Browser"
 
-# {{ nmap
+# {{ firefox
 
-echo -e "\n + nmap\n"
+echo -e " +++++++++ firefox"
 
-apt-get install -y -qq nmap
+apt-get install -y -qq firefox-esr ca-certificates libcanberra-gtk3-module
 
-# }} nmap
-# {{ naabu
+mv -f ${CONFIGURATIONS}/.mozilla ${HOME}/.mozilla
+
+# }} firefox
+
+# }} Browser
+
+# }} System
+# {{ Tools
+
+echo -e "\n + bloodhound\n"
+
+apt-get install -y -qq bloodhound
+pip3 install bloodhound
+
+echo -e "\n + certipy\n"
+
+git clone https://github.com/ly4k/Certipy.git /tmp/Certipy
+cd /tmp/Certipy
+python3 setup.py install
+cd -
+
+echo -e "\n + crackmapexec\n"
+
+pipx install crackmapexec
+
+echo -e "\n + dnsutils\n"
+
+apt-get install -y -qq dnsutils
+
+echo -e "\n + enum4linux\n"
+
+apt-get install -y -qq enum4linux
+
+echo -e "\n + evil-winrm\n"
+
+apt-get install -y -qq evil-winrm
+
+echo -e "\n + fping\n"
+
+apt-get install -y -qq fping
+
+echo -e "\n + grep\n"
+
+apt-get install -y -qq grep
+
+echo -e "\n + impacket\n"
+
+git clone https://github.com/SecureAuthCorp/impacket.git /opt/impacket
+pip3 install -r /opt/impacket/requirements.txt
+cd /opt/impacket
+python3 ./setup.py install
+cd -
+
+echo -e "\n + ldap-utils\n"
+
+apt-get install -y -qq ldap-utils
+
+echo -e "\n + masscan\n"
+
+apt-get install -y -qq masscan
+
+echo -e "\n + mitm6\n"
+
+pip install mitm6
 
 echo -e "\n + naabu\n"
 
 apt-get install -y -qq libpcap-dev
 go install github.com/projectdiscovery/naabu/cmd/naabu@latest
 
-# }} naabu
-# {{ masscan
-
-echo -e "\n + masscan\n"
-
-apt-get install -y -qq masscan
-
-# }} masscan
-# {{ ps.sh
-
-echo -e "\n + ps.sh\n"
-
-curl -s https://raw.githubusercontent.com/enenumxela/ps.sh/main/install.sh | bash -
-
-# }} ps.sh
-# {{ netdiscover
-
 echo -e "\n + netdiscover\n"
 
 apt-get install -y -qq netdiscover
 
-# }} netdiscover
-# {{ ping
+echo -e "\n + nmap\n"
+
+apt-get install -y -qq nmap
+
+echo -e "\n + nmap-utils \n"
+
+curl -sL https://raw.githubusercontent.com/enenumxela/nmap-utils/main/merge-nmap-xml -o /usr/local/bin/merge-nmap-xml
+
+curl -sL https://raw.githubusercontent.com/enenumxela/nmap-utils/main/merge-nmap-xml -o /usr/local/bin/parse-nmap-xml
+
+chmod +x /usr/local/bin/merge-nmap-xml /usr/local/bin/parse-nmap-xml
 
 echo -e "\n + ping\n"
 
 apt-get install -y -qq iputils-ping
 
-# }} ping
-# {{ fping
+echo -e "\n + ps.sh\n"
 
-echo -e "\n + fping\n"
-
-apt-get install -y -qq fping
-
-# }} fping
-# {{ grep
-
-echo -e "\n + grep\n"
-
-apt-get install -y -qq grep
-
-# }} grep
-# {{ crackmapexec
-
-echo -e "\n + crackmapexec\n"
-
-pipx install crackmapexec
-
-# }} crackmapexec
-# {{ evil-winrm
-
-echo -e "\n + evil-winrm\n"
-
-apt-get install -y -qq evil-winrm
-
-# }} evil-winrm
-# {{ responder
+curl -s https://raw.githubusercontent.com/enenumxela/ps.sh/main/install.sh | bash -
 
 echo -e "\n + responder\n"
 
 apt-get install -y -qq responder
 
-# }} responder
+# }}
