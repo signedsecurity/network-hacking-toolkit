@@ -33,18 +33,20 @@
 	</a>
 </p>
 
-A network hacking toolkit docker image with GUI applications support.
+A network hacking toolkit (docker image).
 
 ## Resources
 
 * [Installation](#installation)
-    * [Docker](#docker)
-    * [Docker Compose](#docker-compose)
-    * [Build from Source](#build-from-source)
+	* [Docker](#docker)
+	* [Docker Compose](#docker-compose)
+	* [Build from Source](#build-from-source)
 * [GUI Support](#gui-support)
-    * [Using SSH with X11 forwarding](#using-ssh-with-x11-forwarding)
-* [Installed](#installed)
-    * [Tools](#tools)
+	* [Using SSH with X11 forwarding](#using-ssh-with-x11-forwarding)
+* [Toolkit Setup](#toolkit-setup)
+	* [System](#system)
+	* [Tools](#tools)
+* [Contribution](#contribution)
 
 ## Installation
 
@@ -131,7 +133,19 @@ By default, no GUI tools can be run in a Docker container as no X11 server is av
 
 Use X11 forwarding through SSH if you want to go this way. Run `start_ssh` inside the container to start the server, make sure you expose port 22 when starting the container: `docker run -p 127.0.0.1:22:22 ...`, then use `ssh -X ...` when connecting (the script prints the password).
 
-## Installed
+## Toolkit Setup
+
+### System
+
+* Terminal
+	- Shell (ZSH)
+	- Session Management (TMUX)
+* Text Editor
+	- vim
+* Browser
+	- firefox
+* Remote Connection
+	- SSH
 
 ### Tools
 
@@ -150,14 +164,18 @@ Many different Linux and Windows tools are installed. Windows tools are supporte
 | [impacket](https://github.com/SecureAuthCorp/impacket) | Impacket is a collection of Python classes for working with network protocols. |
 | ldap-utils | - |
 | [masscan](https://github.com/robertdavidgraham/masscan) | TCP port scanner, spews SYN packets asynchronously, scanning entire Internet in under 5 minutes. . |
+| [metasploit](https://www.metasploit.com) | - |
 | [mitm6](https://github.com/dirkjanm/mitm6) | mitm6 is a pentesting tool that exploits the default configuration of Windows to take over the default DNS server. |
 | [naabu](https://github.com/projectdiscovery/naabu) |  A fast port scanner written in go with a focus on reliability and simplicity. Designed to be used in combination with other tools for attack surface discovery in bug bounties and pentests. |
 | [netdiscover](https://github.com/netdiscover-scanner/netdiscover) | Netdiscover is a network address discovering tool, developed mainly for those wireless networks without dhcp server, it also works on hub/switched networks. Its based on arp packets, it will send arp requests and sniff for replies. |
+| netcat | - |
 | [nmap](https://nmap.org/) | Nmap ("Network Mapper") is a free and open source utility for network discovery and security auditing.|
 | [nmap-utils](https://github.com/enenumxela/nmap-utils) | Scripts to process nmap results. |
 | [ping](https://github.com/enenumxela/ps.sh) | A wrapper around tools used for port scanning(nmap, naabu & masscan), the goal being reducing scan time, increasing scan efficiency and automating the workflow. |
+| [proxychains](https://github.com/haad/proxychains) | A tool that forces any TCP connection made by any given application to follow through proxy like TOR or any other SOCKS4, SOCKS5 or HTTP(S) proxy. Supported auth-types: "user/pass" for SOCKS4/5, "basic" for HTTP. |
 | [ps.sh](https://github.com/enenumxela/ps.sh) | A wrapper around tools used for port scanning(nmap, naabu & masscan), the goal being reducing scan time, increasing scan efficiency and automating the workflow. |
 | [responder](https://github.com/lgandx/Responder) | Responder is an LLMNR, NBT-NS and MDNS poisoner. |
+|  searchsploit | - |
 
 ## Contribution
 

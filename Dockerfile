@@ -29,8 +29,6 @@ RUN \
 		python3-dev \
 		python3-pip \
 		python3-venv && \
-	python3 -m pip install pipx && \
-	pipx ensurepath && \
 	# setup go(golang)
 	curl -sL https://golang.org/dl/go1.17.6.linux-amd64.tar.gz -o /tmp/go1.17.6.linux-amd64.tar.gz && \
 	tar -xzf /tmp/go1.17.6.linux-amd64.tar.gz -C /usr/local && \
