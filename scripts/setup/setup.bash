@@ -159,6 +159,13 @@ then
 	pip3 install bloodhound
 fi
 
+echo -e "\n + certi.py\n"
+
+git clone https://github.com/zer1t0/certi.git /tmp/certi
+cd /tmp/certi
+python3 setup.py install
+cd -
+
 echo -e "\n + certipy\n"
 
 git clone https://github.com/ly4k/Certipy.git /tmp/Certipy

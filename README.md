@@ -154,6 +154,7 @@ Many different Linux and Windows tools are installed. Windows tools are supporte
 | Name | Description |
 | :--- | :---------- |
 | [bloodhound](https://github.com/BloodHoundAD/BloodHound) | BloodHound uses graph theory to reveal the hidden and often unintended relationships within an Active Directory or Azure environment. |
+| [certi.py](https://github.com/zer1t0/certi) | ADCS abuser |
 | [certipy](https://github.com/ly4k/Certipy) | Tool for Active Directory Certificate Services enumeration and abuse. |
 | [CrackMapExec](https://github.com/byt3bl33d3r/CrackMapExec) | A swiss army knife for pentesting networks . |
 | dnsutils | - |
