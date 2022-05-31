@@ -1,55 +1,64 @@
 #!/usr/bin/env bash
 
-USER_LOCAL_BIN="${HOME}/.local/bin"
-
-if [ ! -d ${USER_LOCAL_BIN} ]
-then
-	mkdir -p ${USER_LOCAL_BIN}
-fi
-
 CONFIGURATIONS="/tmp/configurations"
 
-# {{ System 
+export DEBIAN_FRONTEND=noninteractive
 
-echo -e " + System"
+echo -e " + up(date|grade)"
 
-# {{ Terminal
+apt-get update && apt-get upgrade -qq -y
+
+echo -e " + install essentials"
+
+apt-get install -y -qq --no-install-recommends \
+	tar \
+	git \
+	curl \
+	wget \
+	tree \
+	unzip \
+	xauth \
+	libxss1 \
+	apt-utils \
+	p7zip-full \
+	ca-certificates \
+	build-essential
+
+echo -e " + install/generate locales"
+
+apt-get install -y -qq --no-install-recommends locales
+localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+echo -e " + extract configuration"
+
+7z x /tmp/configurations.7z -o/tmp 
+
+echo -e " + System Setup"
 
 echo -e " +++++ Terminal"
 
-# {{ zsh
-
 echo -e " +++++++++ Shell (zsh)"
 
-# install zsh
 if [ ! -x "$(command -v zsh)" ]
 then
 	apt-get install -y -qq zsh
 fi
 
-# make zsh default shell
 if [ "${SHELL}" != "$(which zsh)" ]
 then
 	chsh -s $(which zsh) ${USER}
 fi
 
-# oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended 
 
-# zsh-autosuggestions
-git clone "https://github.com/zsh-users/zsh-autosuggestions" "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-# zsh-syntax-highlighting
-git clone "https://github.com/zsh-users/zsh-syntax-highlighting.git" "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+git clone https://github.com/zsh-users/zsh-autosuggestions.git ${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 
-# set up dotfiles
 mv ${CONFIGURATIONS}/.zshrc ${HOME}/.zshrc
 mv ${CONFIGURATIONS}/.zprofile ${HOME}/.zprofile
 mv ${CONFIGURATIONS}/.hushlogin ${HOME}/.hushlogin
 
-# }} zsh
-# {{ tmux
-
-echo -e " +++++++++ Session Management (tmux)"
+echo -e " +++++++++ Session Manager (tmux)"
 
 if [ ! -x "$(command -v tmux)" ]
 then
@@ -60,7 +69,10 @@ mv ${CONFIGURATIONS}/.tmux.conf ${HOME}/.tmux.conf
 
 TMUX_PLUGINS="${HOME}/.tmux/plugins"
 
-mkdir -p ${TMUX_PLUGINS}
+if [ ! -d ${TMUX_PLUGINS} ]
+then
+	mkdir -p ${TMUX_PLUGINS}
+fi
 
 git clone https://github.com/tmux-plugins/tpm.git ${TMUX_PLUGINS}/tpm
 
@@ -70,14 +82,33 @@ then
 	${TMUX_PLUGINS}/tpm/bin/install_plugins
 fi
 
-# }} tmux
+echo -e " +++++ Browser"
 
-# }} Terminal
-# {{ Text Editor
+echo -e " +++++++++ firefox"
+
+if [ ! -x "$(command -v firefox)" ]
+then
+	apt-get install -y -qq firefox-esr ca-certificates libcanberra-gtk3-module
+fi
+
+mv -f ${CONFIGURATIONS}/.mozilla ${HOME}/.mozilla
+
+echo -e " +++++ Remote Connection"
+
+echo -e " +++++++++ ssh"
+
+if [ ! -x "$(command -v ssh)" ]
+then
+	apt-get install -y -qq openssh-server
+fi
+
+sed -i 's/#X11UseLocalhost yes/X11UseLocalhost no/' /etc/ssh/sshd_config
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+echo -e " + Development"
 
 echo -e " +++++ Text Editor"
-
-# {{ vim
 
 echo -e " +++++++++ vim"
 
@@ -96,56 +127,73 @@ curl -sL https://raw.githubusercontent.com/joshdick/onedark.vim/master/autoload/
 curl -sL https://raw.githubusercontent.com/joshdick/onedark.vim/master/colors/onedark.vim -o ${VIM_COLORS}/onedark.vim
 mkdir -p ${VIM_AUTOLOAD}/airline/themes
 curl -sL https://raw.githubusercontent.com/joshdick/onedark.vim/master/autoload/airline/themes/onedark.vim -o ${VIM_AUTOLOAD}/airline/themes/onedark.vim
-git clone https://github.com/tpope/vim-fugitive.git ${VIM_BUNDLE}/vim-fugitive
 git clone https://github.com/preservim/nerdtree.git ${VIM_BUNDLE}/nerdtree
-git clone https://github.com/airblade/vim-gitgutter.git ${VIM_BUNDLE}/vim-gitgutter
 git clone https://github.com/ryanoasis/vim-devicons.git ${VIM_BUNDLE}/vim-devicons
 git clone https://github.com/vim-airline/vim-airline.git ${VIM_BUNDLE}/vim-airline
+git clone https://github.com/airblade/vim-gitgutter.git ${VIM_BUNDLE}/vim-gitgutter
 git clone https://github.com/Xuyuanp/nerdtree-git-plugin.git ${VIM_BUNDLE}/nerdtree-git-plugin
+git clone https://github.com/tpope/vim-fugitive.git ${VIM_BUNDLE}/vim-fugitive
 
-# mv ${CONFIGURATIONS}/.vimrc ${HOME}/.vim/vimrc
+mv ${CONFIGURATIONS}/.vimrc ${HOME}/.vim/vimrc
 
-# }} vim
+echo -e " + language|frameworks|runtime"
 
-# }} Text Editor
-# {{ Browser 
+echo -e " +++++ go"
 
-echo -e " +++++ Browser"
-
-# {{ firefox
-
-echo -e " +++++++++ firefox"
-
-apt-get install -y -qq firefox-esr ca-certificates libcanberra-gtk3-module
-
-mv -f ${CONFIGURATIONS}/.mozilla ${HOME}/.mozilla
-
-# }} firefox
-
-# }} Browser
-# {{ Remote Connection
-
-echo -e " +++++ Remote Connection"
-
-# {{ ssh
-
-echo -e " +++++++++ ssh"
-
-if [ ! -x "$(command -v ssh)" ]
+if [ ! -x "$(command -v go)" ]
 then
-	apt-get install -y -qq openssh-server
+	if [ ! -f /tmp/go1.18.linux-amd64.tar.gz ]
+	then
+		curl -sL https://golang.org/dl/go1.18.linux-amd64.tar.gz -o /tmp/go1.18.linux-amd64.tar.gz
+	fi
+	if [ -f /tmp/go1.18.linux-amd64.tar.gz ]
+	then
+		tar -xzf /tmp/go1.18.linux-amd64.tar.gz -C /usr/local
+		rm -rf /tmp/go1.18.linux-amd64.tar.gz
+	fi
 fi
 
-sed -i 's/#X11UseLocalhost yes/X11UseLocalhost no/' /etc/ssh/sshd_config
-sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+(grep -q "export PATH=\$PATH:/usr/local/go/bin" ~/.profile) || {
+	echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.profile
+}
+(grep -q "export PATH=\$PATH:\${HOME}/go/bin" ~/.profile) || {
+	echo "export PATH=\$PATH:\${HOME}/go/bin" >> ~/.profile
+}
 
-# }} ssh
+source ~/.profile
 
-# }} Remote Connection
+echo -e " +++++ python3"
 
-# }} System
-# {{ Tools
+if [ ! -x "$(command -v python3)" ] || [ ! -x "$(command -v pip3)" ]
+then
+	apt-get install -y -qq python3 python3-dev python3-pip python3-venv
+fi
+
+echo -e " +++++ node, npm & yarn"
+
+if [ ! -x "$(command -v node)" ] || [ ! -x "$(command -v pip3)" ]
+then
+	curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
+	apt-get install -y -qq  nodejs
+fi
+if [ -x "$(command -v npm)" ]
+then
+	npm install -g npm@latest
+
+	if [ ! -x "$(command -v yarn)" ]
+	then
+		npm install -g yarn
+	fi
+fi
+
+echo -e " + Tools"
+
+# tools="${HOME}/tools"
+
+# if [ ! -d ${tools} ]
+# then
+# 	mkdir -p ${tools}
+# fi
 
 echo -e "\n + bloodhound\n"
 
@@ -280,11 +328,11 @@ echo -e "\n + ping\n"
 
 apt-get install -y -qq iputils-ping
 
-echo -e "\n + proxychains\n"
+echo -e "\n + proxychains4\n"
 
-if [ ! -x "$(command -v proxychains)" ]
+if [ ! -x "$(command -v proxychains4)" ]
 then
-	apt-get install -y -qq proxychains
+	apt-get install -y -qq proxychains4
 fi
 
 echo -e "\n + ps.sh\n"
@@ -304,5 +352,3 @@ if [ ! -x "$(command -v searchsploit)" ]
 then
 	apt-get install -y -qq exploitdb
 fi
-
-# }} Tools
